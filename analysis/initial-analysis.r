@@ -10,11 +10,14 @@ head(dt)
 summary(dt)
 sapply(dt, class)
 str(dt)
-
 ## - GRÁFICO 1
+
+
 var_num <- c("HP", "Attack", "Defense", "Sp..Atk", "Sp..Def", "Speed")
 
-paleta <- colorRampPalette(c("#e6e7f0", "#00498F"))
+library(RColorBrewer)
+
+paleta_blues <- colorRampPalette(brewer.pal(8, "Blues"))(200)
 
 cor_matrix <- cor(dt[var_num], use = "complete.obs")
 cor_matrix
@@ -27,7 +30,7 @@ corrplot(
   tl.srt = 0,         
   addCoef.col = "#dadaec",  
   number.cex = 0.9,
-  col = paleta(200),  
+  col = paleta_blues,  
   title = "Correlação entre Estatísticas de Pokémon",
   mar = c(1, 1, 2, 1),  
 )
