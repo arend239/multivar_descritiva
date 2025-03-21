@@ -19,10 +19,10 @@ Sigma <- matrix(c(sigma1^2, rho * sigma1 * sigma2,
                   rho * sigma1 * sigma2, sigma2^2),
                 nrow = 2)
 
-# Calcular a distribuição condicional de Y2 (Defesa) dado Y1 (Ataque)
-# Fórmula: E[Y2 | Y1 = y1] = mu2 + rho * (sigma2 / sigma1) * (y1 - mu1)
-# Variância condicional: sigma2^2 * (1 - rho^2)
-y1 <- 90  # Nota de Ataque para prever a nota de Defesa
+#distribuição condicional de Y2 (Defesa) dado Y1 (Ataque):
+#fórmula: E[Y2 | Y1 = y1] = mu2 + rho * (sigma2 / sigma1) * (y1 - mu1)
+#variância condicional: sigma2^2 * (1 - rho^2)
+y1 <- 90  #nota de ataque para prever a nota de Defesa
 y2_cond_mean <- mu2 + rho * (sigma2 / sigma1) * (y1 - mu1)
 y2_cond_var <- sigma2^2 * (1 - rho^2)
 
@@ -30,10 +30,10 @@ cat("Nota esperada de Defesa dado Ataque =", y1, ":", y2_cond_mean, "\n")
 cat("Variância condicional:", y2_cond_var, "\n")
 
 ggplot(Pokemon, aes(x = Pokemon$Attack, y = Pokemon$Defense)) +
-  geom_point(alpha = 0.5, color = "blue") +  # Pontos dos dados
-  geom_density_2d(color = "red") +          # Contornos da densidade
-  geom_vline(xintercept = y1, linetype = "dashed", color = "darkgreen") +  # Linha para Y1 = 90
-  geom_hline(yintercept = y2_cond_mean, linetype = "dashed", color = "green") +  # Linha para E[Y2 | Y1 = 90]
+  geom_point(alpha = 0.5, color = "blue") +  
+  geom_density_2d(color = "red") +          
+  geom_vline(xintercept = y1, linetype = "dashed", color = "darkgreen") +  #linha para Y1 = 90
+  geom_hline(yintercept = y2_cond_mean, linetype = "dashed", color = "green") +  #linha para E[Y2 | Y1 = 90], valor esperado de y2 dado y1
   labs(title = "Distribuição Normal Bivariada",
        x = "Nota de Ataque",
        y = "Nota de Defesa",
@@ -51,10 +51,10 @@ y <- seq(min(defesa), max(defesa), length.out = 40)
 #mas sem sobrecarregar o gráfico com um número excessivo de pontos.
 #facilita a visualização 
 
-# Gerar a matriz de valores z com base na função de densidade bivariada normal
+#matriz de valores z com base na função de densidade bivariada normal
 z <- matrix(NA, nrow = length(x), ncol = length(y))
 
-# Preencher a matriz z com valores da função de densidade bivariada normal
+#matriz z com valores da função de densidade bivariada normal
 for(i in 1:length(x)) {
   for(j in 1:length(y)) {
     z[i, j] <- dnorm(x[i], mean = mu1, sd = sigma1) * dnorm(y[j], mean = mu2, sd = sigma2) *
@@ -62,7 +62,7 @@ for(i in 1:length(x)) {
   }
 }
 
-# Plotar o gráfico 3D usando a função persp
+#gráfico 3D usando a função persp (não interativo)
 persp(x, y, z, theta = 30, phi = 30, col = "lightblue",
       xlab = "Ataque", ylab = "Defesa", zlab = "Densidade",
       main = "Gráfico 3D da Densidade Bivariada Normal")
@@ -71,7 +71,7 @@ persp(x, y, z, theta = 30, phi = 30, col = "lightblue",
 #phi controla a rotação ao redor do eixo x.
 
 
-#A função plot_ly produz um gráfico visualmente mais atrativo que a função persp, 
+#função plot_ly produz um gráfico visualmente mais atrativo que a função persp, 
 #além disso, o gráfico é interativo.
 library(tidyverse)
 library(plotly)
