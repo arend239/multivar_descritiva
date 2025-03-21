@@ -2,8 +2,8 @@ library(MASS)
 library(ggplot2)    
 library(dplyr)      
 
-ataque <- ataque
-defesa <- defesa
+ataque <- Pokemon$Attack
+defesa <- Pokemon$Defense
 mu1 <- mean(ataque)
 mu2 <- mean(defesa)
 sigma1 <- sd(ataque)
