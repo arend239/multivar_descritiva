@@ -29,8 +29,20 @@ y2_cond_var <- sigma2^2 * (1 - rho^2)
 cat("Nota esperada de Defesa dado Ataque =", y1, ":", y2_cond_mean, "\n")
 cat("Variância condicional:", y2_cond_var, "\n")
 
+#sem curvas de nível:
 ggplot(Pokemon, aes(x = Pokemon$Attack, y = Pokemon$Defense)) +
-  geom_point(alpha = 0.5, color = "blue") +  
+  geom_point(alpha = 0.3, color = "blue") +  # Pontos dos dados
+  geom_vline(xintercept = y1, linetype = "dashed", color = "black") +  #linha para Y1 = 90
+  geom_hline(yintercept = y2_cond_mean, linetype = "dashed", color = "black") +  #linha para E[Y2 | Y1 = 90], valor esperado de y2 dado y1
+  labs(title = "Distribuição Normal Bivariada",
+       x = "Nota de Ataque",
+       y = "Nota de Defesa",
+       subtitle = paste("Previsão de Defesa para Ataque =", y1, ":", round(y2_cond_mean, 2))) +
+  theme_minimal()
+
+#com curvas de nível
+ggplot(Pokemon, aes(x = Pokemon$Attack, y = Pokemon$Defense)) +
+  geom_point(alpha = 0.4, color = "blue") +  
   geom_density_2d(color = "red") +          
   geom_vline(xintercept = y1, linetype = "dashed", color = "darkgreen") +  #linha para Y1 = 90
   geom_hline(yintercept = y2_cond_mean, linetype = "dashed", color = "green") +  #linha para E[Y2 | Y1 = 90], valor esperado de y2 dado y1
