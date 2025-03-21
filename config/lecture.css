@@ -1,0 +1,24 @@
+.v-center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+}
+
+.reveal .slide-logo {
+  height: unset !important;
+  width: unset !important;
+  max-width: 120px !important;
+  max-height: 180px !important;
+}
+
+.reveal .slides > section:first-of-type h1 {
+    margin-top: 0 !important;
+    padding-top: 50px !important; /* Ajuste este valor */
+    font-size: 2.5em; /* Opcional */
+}
+
+.reveal .slides > section:first-of-type .author {
+    margin-top: -20px !important;
+    font-size: 1.2em; /* Opcional */
+}
