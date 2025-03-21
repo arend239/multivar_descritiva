@@ -1,0 +1,46 @@
+---
+title: "Análise Multivariada"
+title-slide-attributes:
+    data-background-image: img/capa_title.png
+    data-background-size: cover
+    data-background-opacity: "1"
+author: "Diogo, Davi, Eduardo, João e Thiago"
+format:
+  revealjs:
+    slide-number: true
+    transition: slide
+#    chalkboard: 
+#      buttons: false
+    preview-links: true
+    theme: [default, config/dd.scss]
+    embed-resources: true
+    logo: img/logo_UFRGS.png
+    css: config/lecture.css
+    footer: 25/03/2025
+---
+
+# Introdução
+
+## Pokémon!
+
+::::: columns
+::: {.column width="55%"}
+-   Pokémon é um dos animes mais icônicos e bem-sucedidos de todos os tempos. Estreou no Japão em 1º de abril de 1997.
+
+-   A primeira geração de Pokémons consistia em 151 criaturas, e em 2025, já estamos na nona geração, com um total de 1025 Pokémons.
+
+-   Nossa tabela de dados contém 721 Pokémons, abrangendo desde a primeira até a sexta geração.
+
+-   O Objetivo do trabalho é identificar correlações entre as variáveis que existem na tabela de dados.
+:::
+
+::: {.column width="45%"}
+![](img/pokemon_01.jpg){.absolute width="400" height="400" style="border-radius: 20px;"}
+:::
+:::::
+
+## Variáveis Categóricas
+
+![](img/pokemon_02.png)
+
+## Variáveis Contínuas
