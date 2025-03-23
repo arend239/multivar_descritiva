@@ -50,14 +50,12 @@ dt <- read.csv("data/Pokemon.csv")
 :::::
 
 ## Variáveis Categóricas
-
 ![](img/pokemon_02.png)
 
 ## Variáveis Contínuas
 ![](img/pokemon_03.png)
 
 ## Correlação entre Estatísticas Pokémon
-
 ```{r}
 
 var_num <- c("HP", "Attack", "Defense", "Sp..Atk", "Sp..Def", "Speed")
