@@ -54,9 +54,35 @@ dt <- read.csv("data/Pokemon.csv")
 
 ## Variáveis Contínuas
 ![](img/pokemon_03.png)
+```{r bibliotecas e dt, include=FALSE}
+library(GGally)
+library(tidyverse)
+library(corrplot)
+library(reshape2)
+library(viridisLite)
+library(viridis)
+library(RColorBrewer)
 
-## Correlação entre Estatísticas Pokémon
-```{r}
+dt <- read.csv("data/Pokemon.csv")
+```
+## Correlação gráfico de dispersão
+```{r dispersão, warning=FALSE, message=FALSE}
+
+dt_sem_name <- dt %>% select(HP, Attack, Defense, Sp..Atk, Sp..Def, Speed)
+
+ggpairs(
+  dt_sem_name,
+  axisLabels = "none" # Remove os rótulos dos eixos
+) +
+  theme(
+    panel.background = element_rect(fill = "white"), 
+    plot.background = element_rect(fill = "white")
+  )
+```
+
+## Correlação gráfico heatmap
+
+```{r heatmap,warning=FALSE, message=FALSE}
 
 var_num <- c("HP", "Attack", "Defense", "Sp..Atk", "Sp..Def", "Speed")
 
@@ -105,4 +131,5 @@ ggplot(cor_df_upper, aes(x = Var2, y = Var1, fill = correlation)) +
     panel.spacing = unit(0, "lines")
   ) +
   coord_fixed(ratio = 1)
+
 ```
