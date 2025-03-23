@@ -43,4 +43,8 @@ format:
 
 ![](img/pokemon_02.png)
 
-## Variáveis Contínuas
+## Variáveis Contínuas (discreta)
+
+![](img/pokemon_03.png)
+
+## Análise de relações
