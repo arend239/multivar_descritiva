@@ -24,6 +24,8 @@ library(tidyverse)
 library(corrplot)
 library(RColorBrewer)
 library(reshape2)
+library(igraph)
+library(ggraph)
 
 # carregando o dataset
 dt <- read.csv("data/Pokemon.csv")
@@ -133,3 +135,38 @@ ggplot(cor_df_upper, aes(x = Var2, y = Var1, fill = correlation)) +
   coord_fixed(ratio = 1)
 
 ```
+
+## Relação entre tipo, subtipo e geração
+
+```{r graph,warning=FALSE, message=FALSE}
+pikomon = dt %>% 
+  filter(dt$Type.2 != "") # tirando os pikomon sem tipo 2
+
+edges = pikomon %>%
+  filter(!is.na(`Type.2`)) %>%
+  group_by(`Type.1`, `Type.2`) %>%
+  summarise(
+    n = n(),
+    Generation = names(which.max(table(Generation)))
+  ) %>%
+  filter(n >= 5) # tirando conexoes fracas
+
+graph = graph_from_data_frame(edges, directed = FALSE)
+
+cores_geracoes = c(
+  "1" = "#00A6ED", "2" = "#FF007F", "3" = "#FFD700",
+  "4" = "#00FF00", "5" = "#8000FF", "6" = "#FF4500"
+)
+
+ggraph(graph, layout = "kk") + 
+  geom_edge_link(aes(width = n, color = Generation), alpha = 0.5,show.legend = FALSE) +
+  geom_edge_link(aes(color = Generation), alpha = 0.5) +
+  geom_node_point(aes(size = degree(graph), color = "#CFD8DC"), alpha = 0.9,show.legend = FALSE) +
+  geom_node_text(aes(label = name), size = 4, repel = TRUE) +
+  scale_edge_color_manual(values = cores_geracoes) +  
+  scale_color_identity() +
+  theme_void()
+  
+
+```
+
