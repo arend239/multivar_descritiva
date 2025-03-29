@@ -39,7 +39,7 @@ dt <- read.csv("data/Pokemon.csv")
  - Nossa tabela de dados contém 721 Pokémons, abrangendo desde a primeira até a sexta geração.
 :::
 ::: {.column width="45%"}
-![](img/intro.jpg){.absolute style="border-radius: 40px;"}
+![](img/intro.jpg){.absolute top=0 style="border-radius: 40px;"}
 :::
 :::::
 
