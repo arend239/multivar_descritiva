@@ -12,7 +12,7 @@ date: "`r Sys.Date()`"
 ---
 ```{r libs, include = FALSE}
 packages <- c("GGally", "tidyverse", "corrplot", "reshape2", "viridisLite",
-              "viridis", "RColorBrewer", "igraph", "ggraph", "plotly", "ggExtra", "reticulate")
+              "viridis", "RColorBrewer", "igraph", "ggraph", "plotly", "ggExtra", "reticulate", "hrbrthemes", "ggiraph", "dplyr")
 
 for (p in packages) {
   if (!require(p, character.only = TRUE)) install.packages(p)
@@ -147,36 +147,83 @@ ggraph(graph, layout = "kk") +
 ```
 
 ## Lendários e não lendários
-```{r scatter}
+```{r scatterplot, echo = FALSE, Warning = FALSE}
 
-fig <- plot_ly(data = dt,
-                  x = ~Defense,
-                  y = ~Attack,
-             symbol = ~Legendary,
-            symbols = c('circle','x'),
-               text = ~paste(Name))
+main_plot <- dt %>%
+  plot_ly(
+    x = ~Defense,
+    y = ~Attack,
+    color = ~Legendary,
+    colors = c("#1f77b4", "#ff7f0e"),
+    type = "scatter",
+    mode = "markers",
+    symbol    = ~Legendary,
+    symbols   = c('circle', 'x'),
+    hoverinfo = "text",
+    text = ~paste("Name:", Name, "<br>Attack:", Attack, "<br>Defense:", Defense),
+    showlegend = FALSE
+  )
 
-fig <- fig %>% layout(showlegend = FALSE)
-fig
+density_x <- dt %>%
+  plot_ly(
+    x = ~Defense,
+    color = ~Legendary,
+    colors = c("#1f77b4", "#ff7f0e"),
+    type = "box",
+    showlegend = FALSE
+  ) %>%
+ layout(
+   xaxis = list(
+                # showline = FALSE,
+                # showticklabels = FALSE,
+                showgrid = FALSE,
+                zeroline = TRUE),
+   yaxis = list(
+                # showline = FALSE,
+                # showticklabels = FALSE,
+                showgrid = FALSE,
+                zeroline = TRUE)
+ )
+
+density_y <- dt %>%
+  plot_ly(
+    y = ~Attack,
+    color = ~Legendary,
+    colors = c("#1f77b4", "#ff7f0e"),
+    type = "box",
+    showlegend = FALSE
+    ) %>%
+  layout(
+      xaxis = list(
+                   # showline = FALSE,
+                   # showticklabels = FALSE,
+                   showgrid = FALSE,
+                   zeroline = TRUE),
+      yaxis = list(
+                   # showline = FALSE,
+                   # showticklabels = FALSE,
+                   showgrid = FALSE,
+                   zeroline = TRUE)
+    )
+
+final_plot <- subplot(
+  density_x,
+  plotly_empty(),
+  main_plot,
+  density_y,
+  nrows = 2,
+  widths = c(0.85, 0.15),
+  heights = c(0.15, 0.85),
+  margin = 0.01,
+  shareX = TRUE,
+  titleX = TRUE,
+  shareY = TRUE,
+  titleY = TRUE
+)
+
+final_plot <- final_plot %>%
+  config(responsive = TRUE)
+
+final_plot
 ```
 
-
-```{r}
-library(treemap)
-# library(d3treeR)
-
-# basic treemap
-p <- treemap(dt,
-            index=c("Type.1"),
-            vSize="Total",
-            type="index",
-            palette = "Set2",
-            bg.labels=c("white"),
-            align.labels=list(
-              c("center", "center"),
-              c("right", "bottom")
-            )
-          )
-
-p
-```
