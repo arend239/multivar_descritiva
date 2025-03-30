@@ -115,33 +115,77 @@ plotcorr(xc, col=cm.colors(11)[5*xc + 6])
 ## Relação entre tipo, subtipo e geração
 
 ```{r graph,warning=FALSE, message=FALSE}
-pikomon = dt %>%
-  filter(dt$Type.2 != "")
+pikomon <- dt %>% 
+  filter(Type.2 != "") 
 
-edges = pikomon %>%
-  filter(!is.na(`Type.2`)) %>%
-  group_by(`Type.1`, `Type.2`) %>%
+edges <- pikomon %>%
+  filter(!is.na(Type.2)) %>%
+  group_by(Type.1, Type.2) %>%
   summarise(
     n = n(),
-    Generation = names(which.max(table(Generation)))
+    Generation = names(which.max(table(Generation))),
+    .groups = "drop"
   ) %>%
-  filter(n >= 5)
+  filter(n >= 5) %>%
+  mutate(
+    Grupo = case_when(
+      Generation %in% c("1", "2") ~ "1",
+      Generation %in% c("3", "4") ~ "2",
+      Generation %in% c("5", "6") ~ "3"
+    )
+  )
 
-graph = graph_from_data_frame(edges, directed = FALSE)
+graph <- graph_from_data_frame(edges, directed = FALSE)
 
-cores_geracoes = c(
-  "1" = "#00A6ED", "2" = "#FF007F", "3" = "#FFD700",
-  "4" = "#00FF00", "5" = "#8000FF", "6" = "#FF4500"
+cores_grupos <- c(
+  "1" = "#1f77b4",
+  "2" = "#32CD32",
+  "3" = "#ff7f0e"
 )
 
 ggraph(graph, layout = "kk") +
-  geom_edge_link(aes(width = n, color = Generation), alpha = 0.5,show.legend = FALSE) +
-  geom_edge_link(aes(color = Generation), alpha = 0.5) +
-  geom_node_point(aes(size = degree(graph), color = "#CFD8DC"), alpha = 0.9,show.legend = FALSE) +
-  geom_node_text(aes(label = name), size = 4, repel = TRUE) +
-  scale_edge_color_manual(values = cores_geracoes) +
-  scale_color_identity() +
-  theme_void()
+  geom_edge_link(
+    aes(color = Grupo),
+    alpha = 0.7,
+    width = 2,
+    edge_lineend = "round" 
+  ) +
+  geom_node_point(
+    color = "#5A5A5A",
+    size = 8,   
+    alpha = 1
+  ) +
+  geom_node_text(
+    aes(label = name),
+    family = "Arial",
+    size = 4.5,
+    color = "white",
+    fontface = "bold",
+    repel = TRUE,
+    bg.colour = "black",
+    bg.r = 0.15,
+    seed = 123
+  ) +
+  scale_edge_color_manual(
+    name = "Geração",
+    values = cores_grupos,
+    labels = c("1-2", "3-4", "5-6")
+  ) +
+  theme_void() +
+  theme(
+    legend.position = c(0.95, 0.55),
+    legend.title = element_text(
+      family = "Arial",
+      size = 10,
+      face = "bold"
+    ),
+    legend.key.size = unit(0.8, "cm"),  
+    legend.background = element_rect(
+      fill = "white",
+      color = "gray80",
+      linewidth = 0.3
+    )
+  )
 ```
 
 ## Lendários e não lendários
