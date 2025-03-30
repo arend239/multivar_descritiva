@@ -12,7 +12,7 @@ date: "`r Sys.Date()`"
 ---
 ```{r libs, include = FALSE}
 packages <- c("GGally", "tidyverse", "corrplot", "reshape2", "viridisLite",
-              "viridis", "RColorBrewer", "igraph", "ggraph", "plotly", "ggExtra", "reticulate", "hrbrthemes", "ggiraph", "dplyr")
+              "viridis", "RColorBrewer", "igraph", "ggraph", "plotly", "ggExtra", "reticulate", "hrbrthemes", "ggiraph", "dplyr", "ellipse")
 
 for (p in packages) {
   if (!require(p, character.only = TRUE)) install.packages(p)
@@ -50,21 +50,6 @@ dt <- read.csv("data/Pokemon.csv")
 ![](img/pokemon_03.png)
 
 # Gráficos
-
-## Correlação gráfico de dispersão
-```{r dispersão, warning=FALSE, message=FALSE}
-
-dt_sem_name <- dt %>% select(HP, Attack, Defense, Sp..Atk, Sp..Def, Speed)
-
-ggpairs(
-  dt_sem_name,
-  axisLabels = "none"
-) +
-  theme(
-    panel.background = element_rect(fill = "white"),
-    plot.background = element_rect(fill = "white")
-  )
-```
 
 ## Correlação gráfico heatmap
 
@@ -112,6 +97,19 @@ ggplot(cor_df_upper, aes(x = Var2, y = Var1, fill = correlation)) +
     panel.spacing = unit(0, "lines")
   ) +
   coord_fixed(ratio = 1)
+```
+
+## Correlograma
+
+```{r dispersão, warning=FALSE, message=FALSE}
+
+dt_sem_name <- dt %>% select(HP, Attack, Defense, Sp..Atk, Sp..Def, Speed)
+
+
+wine.corr <- cor(dt_sem_name)
+ord <- order(wine.corr[1,])
+xc <- wine.corr[ord, ord]
+plotcorr(xc, col=cm.colors(11)[5*xc + 6])
 ```
 
 ## Relação entre tipo, subtipo e geração
