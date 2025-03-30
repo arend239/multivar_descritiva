@@ -44,7 +44,7 @@ dt <- read.csv("data/Pokemon.csv")
 :::::
 
 ## Variáveis Categóricas
-![](img/pokemon_02.png)
+![](img/pokemon_02.jpg)
 
 ## Variáveis Quantitativas
 ![](img/pokemon_03.png)
