@@ -115,8 +115,8 @@ plotcorr(xc, col=cm.colors(11)[5*xc + 6])
 ## Relação entre tipo, subtipo e geração
 
 ```{r graph,warning=FALSE, message=FALSE}
-pikomon <- dt %>% 
-  filter(Type.2 != "") 
+pikomon <- dt %>%
+  filter(Type.2 != "")
 
 edges <- pikomon %>%
   filter(!is.na(Type.2)) %>%
@@ -148,11 +148,11 @@ ggraph(graph, layout = "kk") +
     aes(color = Grupo),
     alpha = 0.7,
     width = 2,
-    edge_lineend = "round" 
+    edge_lineend = "round"
   ) +
   geom_node_point(
     color = "#5A5A5A",
-    size = 8,   
+    size = 8,
     alpha = 1
   ) +
   geom_node_text(
@@ -179,7 +179,7 @@ ggraph(graph, layout = "kk") +
       size = 10,
       face = "bold"
     ),
-    legend.key.size = unit(0.8, "cm"),  
+    legend.key.size = unit(0.8, "cm"),
     legend.background = element_rect(
       fill = "white",
       color = "gray80",
@@ -270,7 +270,7 @@ final_plot
 ```
 
 ## Atributos por tipos
-```{r, echo = FALSE, Warning = FALSE}
+```{r spider, echo = FALSE, Warning = FALSE}
 
 tipos_selecionados <- c("Dragon", "Flying", "Steel")
 dados_tipos <- dt %>%
@@ -311,5 +311,18 @@ radarchart(
   seg = 5,
   centerzero = FALSE,
   cex.main = 1.25
+)
+legend(
+  x = "bottomright",
+  # inset = c(0, 0),
+  legend = c("Dragon", "Flying", "Steel"),
+  bty = "n",
+  pch = 19,
+  col = substr(type_colors, 1, 7),
+  text.col = "black",
+  cex = 0.8,
+  pt.cex = 2,
+  y.intersp = 1.3,
+  xpd = TRUE
 )
 ```
