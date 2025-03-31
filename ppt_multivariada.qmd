@@ -12,7 +12,8 @@ date: "`r Sys.Date()`"
 ---
 ```{r libs, include = FALSE}
 packages <- c("GGally", "tidyverse", "corrplot", "reshape2", "viridisLite",
-              "viridis", "RColorBrewer", "igraph", "ggraph", "plotly", "ggExtra", "reticulate", "hrbrthemes", "ggiraph", "ellipse", "fmsb", "scales", "plotly", "MASS", "mvtnorm")
+              "viridis", "RColorBrewer", "igraph", "ggraph", "plotly", "ggExtra", "reticulate", "hrbrthemes", "ggiraph", "ellipse", "fmsb", "scales", "plotly")
+
 
 for (p in packages) {
   if (!require(p, character.only = TRUE)) install.packages(p)
@@ -172,35 +173,6 @@ ggraph(graph, layout = "kk") +
       color = "gray80",
       linewidth = 0.3
     )
-  )
-```
-
-## Densidade de probabilidade 3D
-
-```{r dispersão, warning=FALSE, message=FALSE}
-ataque <- dt$Attack
-defesa <- dt$Defense
-
-x <- seq(min(ataque), max(ataque), length.out = 40)
-y <- seq(min(defesa), max(defesa), length.out = 40)
-grid <- expand.grid(x = x, y = y)
-
-densidade <- MASS::kde2d(ataque, defesa, n = 40)
-
-densidade_total <- sum(densidade$z)
-
-densidade_normalizada <- densidade$z / densidade_total
-
-plot_ly(x = densidade$x, y = densidade$y, z = densidade_normalizada) %>%
-  add_surface(colorscale = "Cividis") %>%
-  layout(
-    scene = list(
-      xaxis = list(title = "Ataque"),
-      yaxis = list(title = "Defesa"),
-      zaxis = list(title = "Densidade")
-    ),
-    width = 1000,
-    height = 500
   )
 ```
 
@@ -400,6 +372,37 @@ legend(
 
 :::
 
-## Muito obrigado pela atenção!
+## Densidade de probabilidade 3D
+```{r dispersão, warning=FALSE, message=FALSE}
 
+if (!require("mvtnorm")) install.packages("mvtnorm")
+if (!require("MASS")) install.packages("MASS")
+
+ataque <- dt$Attack
+defesa <- dt$Defense
+
+x <- seq(min(ataque), max(ataque), length.out = 40)
+y <- seq(min(defesa), max(defesa), length.out = 40)
+grid <- expand.grid(x = x, y = y)
+
+densidade <- MASS::kde2d(ataque, defesa, n = 40)
+
+densidade_total <- sum(densidade$z)
+
+densidade_normalizada <- densidade$z / densidade_total
+
+plot_ly(x = densidade$x, y = densidade$y, z = densidade_normalizada) %>%
+  add_surface(colorscale = "Cividis") %>%
+  layout(
+    scene = list(
+      xaxis = list(title = "Ataque"),
+      yaxis = list(title = "Defesa"),
+      zaxis = list(title = "Densidade")
+    ),
+    width = 1000,
+    height = 500
+  )
+```
+
+## Muito obrigado pela atenção!
 ![](img/despedida.jpg)
